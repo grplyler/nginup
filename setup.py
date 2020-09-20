@@ -8,10 +8,12 @@ setup(
     packages=find_packages(),
     install_requires=[
         "click",
+        "coloredlogs",   
+        "Jinja2"     
     ],
     entry_points={
         "console_scripts": [
-            "nginup = nginup.cli:cli"
+            "ng = nginup.cli:cli"
         ]
     },
 )
