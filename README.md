@@ -1,107 +1,102 @@
-# pycli
 
-Pycli is a barebones template and boilerplate for a command line python application. Basically because I needed one.
+<h1 align="center">
+  nginup
+</h1>
 
-![](cli.png)
-![](output.png)
+<h3 align="center">A command-line for quickly generating nginx configuration</h3>
+
+![](carbon.png)
+
+<p align="center">
+  <a href="#key-features" style="color: red; padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 5px; border-radius: 3px; background-color: white; box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);">Key Features</a> •
+  <a href="#install">Install</a> •
+  <a href="#develop">Develop</a> •
+  <a href="#examples">Examples</a> •
+  <a href="#contributing">Contributing</a> •
+  <a href="#Todo">Todo</a> •
+  <a href="#license">License</a>
+</p>
+
+
+## Key Features
+* **Simple command line interface**
+* **Lighting-fast nginx site configuration**
+* **Extensible template based config using the beloved `Jinja2`**
+
 
 ## Requirements
 
-* Python
-* setuptools
-* click
+* Python 3
+* pip
+* certbot
+* certbot-nginx
 
-## Installation
+## Install
 
-Clone the package with
+*Install from source*
 
-```bash
-git clone https://github.com/grplyler/pycli.git
+The following commands install an `ng` and `nginup` script to your `$PATH`
+
+```
+git clone https://github.com/grplyler/nginup.git
+cd nginup
+python setup.py install
 ```
 
-Then install the following **requirements**
+## Develop
 
-```bash
-pip install setuptools click
+The following commands install an `ng` and `nginup` script to your `$PATH`
+but they link back to the source so changes made in development will be reflected
+in the command install in your $PATH.
+
+```
+git clone https://github.com/grplyler/nginup.git
+cd nginup
+python setup.py develop
 ```
 
+## Examples
 
-## Usage
 
-1. First visit the setup.py and update project details
+**Create a static site**
+```
+$ ng static /var/www/blog.mysite.com -d blog.mysite.com
+```
 
-    ```python
-    from setuptools import setup, find_packages
+`-d` specifived a sub-domain based virtualhost for routing.
 
-    setup(
-        name="pycli",
-        description="A Python CLI Starter Template",
-        version="0.1",
-        author="Ryan Plyler <grplyler@liberty.edu>",
-        packages=find_packages(),
-        install_requires=[
-            "click",
-        ],
-        entry_points={
-            "console_scripts": [
-                "pycli = pycli.cli:cli"
-            ]
-        },
-    )
-    ```
+**Create a static site with SSL (COMING SOON)**
 
-2. The visit the `pycli/cli.py` module to add some commands. This template uses the [Click](https://click.palletsprojects.com/en/7.x/) library for simple, beautiful, command line interfaces, by the same guys that made [Flask](https://flask.palletsprojects.com/en/1.1.x/)
+```
+$ ng static /var/www/blog.mysite.com --ssl
+```
 
-    ```python
-    @click.command(help="Absolutely obliterate your target")
-    @click.argument('target')
-    def nuke(target):
+`--ssl` will instruct nginup to install a Let's Encrypt TLS Certificate
 
-        print(f'Launching nukes at {target}!!!.')
-        print("Now you'll have to go to Walmart :/")
+## Rationale
 
-    cli.add_command(nuke)
-    ```
+I created this tools to save time spinning up new `static`, `reverse proxy` and `php` virtualhosts in nginx.
 
-3. Finally, in your terminal or command prompt, run the for development mode (you won't have to reinstal cli tool to reflect new changes as you develop):
+## Disclaimer
 
-    ```bash
-    python setup.py develop
-    ```
+The code and executables in this project are a **work in progress**. While they can be used an tools/toys and what have you, they are not production ready and **shouldn't be used on crital systems** without understanding these disclaimers. 
 
-    or for production
-
-    ```bash
-    python setup.py install
-    ```
-
-4. This automatially creates a symlink to your program. Run and check the output!
-
-    ```bash
-    Usage: pycli [OPTIONS] COMMAND [ARGS]...
-
-    Options:
-    --help  Show this message and exit.
-
-    Commands:
-    hello  Have your new program say Hi to you!
-    nuke   Absolutely obliterate your target
-    ```
-
-## Conventions
-
-This template aims to reflect python standards and best practices by having a proper module and package oriented structure. But feel free to customize for your own needs!
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-## Community
+If you like this project, here are some ways you can contribute!
 
-If you use this boilerplate for something cool, shoot me an email! I'd love you hear what you made!
+* Feature Requests
+* Bug Reports
+* Platform Testing
 
-## Credits
+## Todo
 
-**Super Cool Code Images** by [Carbon](https://carbon.now.sh/)
+* [] Add SSL Autoconfig with Let's Encrypt Cerbot
+* [] Add PHP Config Generation Template
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+
+MIT
+
+
