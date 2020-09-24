@@ -27,7 +27,7 @@ def install_config(fname, data):
 
 def install_ssl(domain):
     log.info(f"Install TLS Certification for {domain}")
-    system(f"certbot --nginx -d {domain}", shell=True)
+    system(f"certbot --nginx -d {domain}")
 
 def init_root(root):
     log.debug(f"Creating Document root: {root}")
