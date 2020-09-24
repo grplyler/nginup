@@ -55,7 +55,7 @@ def static(root, path, ssl, domain):
     install_config(domain, config)
 
     # Reload nginx
-    # reload_nginx()
+    reload_nginx()
 
 
 cli.add_command(proxy)
