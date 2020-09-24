@@ -17,20 +17,30 @@ def cli():
 @click.option('-d', '--domain', help="Use domain for virtualhost routing")
 def proxy(internal, path, ssl, ws, domain):
     log.info(f"Creating reverse proxy site: {domain} -> nginx -> {internal}")
-
     template = get_template('proxy')
 
-    if ws:
-        log.debug("with websockets")
-    
     if ssl:
         log.debug("with SSL")
 
-    config = template.render(internal=internal, domain=domain, ws=ws, ssl=ssl, path=path)
-    print(config)
+    if ws:
+        log.debug("with Websocket Support")
+
+    # Init root
+    init_root(root)
+
+    # Generate config
+    config = template.render(internal=internal, path=path, ssl=ssl, domain=domain)
+
+    # Install config
     install_config(domain, config)
 
+    if ssl:
+        install_ssl(domain)
+
+    # Reload nginx
     reload_nginx()
+
+    log.info("Site deployed successfully.")
 
 # Create a static site
 @click.command(help="Create an nginx static site")
@@ -54,8 +64,13 @@ def static(root, path, ssl, domain):
     # Install config
     install_config(domain, config)
 
+    if ssl:
+        install_ssl(domain)
+
     # Reload nginx
     reload_nginx()
+
+    log.info("Site deployed successfully.")
 
 
 cli.add_command(proxy)

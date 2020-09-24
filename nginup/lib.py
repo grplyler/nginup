@@ -25,19 +25,25 @@ def install_config(fname, data):
     with open(outpath, "w") as outfile:
         outfile.write(data)
 
+def install_ssl(domain):
+    log.info(f"Install TLS Certification for {domain}")
+    system(f"certbot --nginx -d {domain}", shell=True)
+
 def init_root(root):
+    log.debug(f"Creating Document root: {root}")
+    ok = mkdir_confirm(root)
+    
+def mkdir_confirm(root):
     # p = path.join(config.WEB_ROOT, domain)
-    log.debug(f"Creating document root: {root}")
     if not path.exists(root):
-        log.debug(f"Document root created: {root}")
         mkdir(root)
+        return True
     else:
         confirm = input(f"{root} already exists. Overwite? (y/n): ")
         if config == "y":
             rmtree(root)
-            log.debug(f"Document root created: {root}")
             mkdir(root)
+            return True
         else:
             log.warn(f"Aborting.")
-
-        
+            return False
